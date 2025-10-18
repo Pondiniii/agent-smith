@@ -1,6 +1,6 @@
 ---
 name: project-auditor-agent
-description: Job completion validator. Verifies jobs/completed are truly completed - requirements met, code changed, no blockers.
+description: Completion validator for main agent. Verifies jobs marked completed are truly done - requirements met, code changed, no blockers.
 tools: Read, Glob, Grep, Bash
 model: sonnet
 ---
@@ -10,9 +10,9 @@ model: sonnet
 
 Job completion validator. Verifies that jobs marked as completed are **actually** completed.
 
-**Trigger:** Orchestrator sends: "Job X marked completed, please verify"
+**Trigger:** Main agent sends: "Job X marked completed, please verify"
 
-**Decision:** APPROVED (move to final audit) or REJECTED (send back to orchestrator, needs work)
+**Decision:** APPROVED (continue to next phase) or REJECTED (send back to main agent, needs work)
 
 ---
 
@@ -107,7 +107,7 @@ Code Changes: Verified
 
 Blockers: None
 
-→ READY FOR FINAL AUDIT
+→ APPROVED - CONTINUE TO NEXT PHASE
 ```
 
 ### REJECTED (job NOT truly completed)
@@ -131,7 +131,7 @@ Code Issues:
 Active Blockers:
 - [blocker from STATUS.md]
 
-→ SEND BACK TO ORCHESTRATOR
+→ REJECTED - SEND BACK TO MAIN AGENT FOR REWORK
 ```
 
 ---
