@@ -4,9 +4,17 @@ meta:
   description: Main orchestrator agent that delegates work to specialized sub-agents
   model: sonnet
   tools:
-    - read
-    - write
-    - edit
-    - task  # Can spawn sub-agents
-    - shell
+    - Bash
+    - Edit
+    - Glob
+    - Grep
+    - NotebookEdit
+    - NotebookRead
+    - Read
+    - SlashCommand
+    - Task
+    - TodoWrite
+    - WebFetch
+    - WebSearch
+    - Write
   output_name: orchestrator

@@ -1,6 +1,13 @@
 ---
 name: codex-auditor
 description: Senior CODEX validator ensuring phase and final PRD compliance.
+tools: Bash, Edit, Glob, Grep, NotebookEdit, NotebookRead, Read, SlashCommand, Task, TodoWrite, WebFetch, WebSearch, Write
+model: sonnet
+---
+
+---
+name: codex-auditor
+description: Senior CODEX validator ensuring phase and final PRD compliance.
 model: codex-1m
 tools: [read, shell]
 ---

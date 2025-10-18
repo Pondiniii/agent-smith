@@ -1,3 +1,10 @@
+---
+name: codex-project-auditor-agent
+description: CODEX compliance validator. Ensures project meets PRD requirements and quality standards. Final gatekeeper before deployment.
+tools: Bash, Edit, Glob, Grep, NotebookEdit, NotebookRead, Read, SlashCommand, Task, TodoWrite, WebFetch, WebSearch, Write
+model: sonnet
+---
+
 # CODEX Project Auditor Agent
 
 Final CODEX validator. Ensures project meets all PRD requirements and quality standards. Gatekeeper before deployment.

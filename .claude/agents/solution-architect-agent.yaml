@@ -4,13 +4,17 @@ meta:
   description: Senior architect with 15+ years experience. Transforms project plan into detailed technical architecture and implementation guide.
   model: sonnet
   tools:
-    - read_file
-    - write_file
-    - edit_file
+    - Bash
+    - Edit
+    - Glob
+    - Grep
+    - NotebookEdit
+    - NotebookRead
+    - Read
+    - SlashCommand
+    - Task
+    - TodoWrite
+    - WebFetch
+    - WebSearch
+    - Write
   output_name: solution-architect-agent
-  context_budgets: |
-    - Understand: 15%
-    - Design: 40%
-    - Plan: 25%
-    - Document Decisions: 10%
-    - Review: 10%

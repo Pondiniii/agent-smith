@@ -4,12 +4,17 @@ meta:
   description: CODEX compliance validator. Ensures project meets PRD requirements and quality standards. Final gatekeeper before deployment.
   model: sonnet
   tools:
-    - read_file
-    - bash
-    - grep
+    - Bash
+    - Edit
+    - Glob
+    - Grep
+    - NotebookEdit
+    - NotebookRead
+    - Read
+    - SlashCommand
+    - Task
+    - TodoWrite
+    - WebFetch
+    - WebSearch
+    - Write
   output_name: codex-project-auditor-agent
-  context_budgets: |
-    - Load Requirements: 15%
-    - Analyze Artifacts: 50%
-    - Generate Report: 25%
-    - Decision: 10%

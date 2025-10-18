@@ -30,7 +30,8 @@ AGENTS_OUT_DIR = AGENTS_DIR  # Output MD files also go here
 def parse_yaml_simple(content: str) -> dict:
     """Simple YAML parser for basic key: value and nested structures."""
     result = {}
-    stack = [(0, result)]  # (indent_level, dict)
+    stack = [(0, result)]  # (indent_level, parent)
+    last_key_at_indent = {}  # Track last key at each indent for list conversion
 
     for line in content.split("\n"):
         # Skip empty lines and comments
@@ -39,6 +40,29 @@ def parse_yaml_simple(content: str) -> dict:
 
         # Calculate indentation
         indent = len(line) - len(line.lstrip())
+
+        # Handle list items (lines starting with -)
+        if line.lstrip().startswith("- "):
+            # Find the parent dict by popping to the right indent level
+            # List items should be children of a key one level up
+            while len(stack) > 1 and indent <= stack[-1][0]:
+                stack.pop()
+
+            parent_dict = stack[-1][1]
+
+            # Find which key at this indent level owns this list
+            # It should be the last key we saw at indent - 2
+            list_key_indent = indent - 2
+            list_key = last_key_at_indent.get(list_key_indent)
+
+            if list_key:
+                item = line.lstrip()[2:].strip()  # Remove "- "
+                # Convert dict to list if needed, or add to existing list
+                if isinstance(parent_dict.get(list_key), dict):
+                    parent_dict[list_key] = []
+                if isinstance(parent_dict.get(list_key), list):
+                    parent_dict[list_key].append(item)
+            continue
 
         # Pop stack if indentation decreased
         while len(stack) > 1 and indent < stack[-1][0]:
@@ -49,6 +73,9 @@ def parse_yaml_simple(content: str) -> dict:
             key, value = line.split(":", 1)
             key = key.strip()
             value = value.strip()
+
+            # Track this key at this indent level (for list conversion)
+            last_key_at_indent[indent] = key
 
             # Handle comments
             if "#" in value:
@@ -61,9 +88,14 @@ def parse_yaml_simple(content: str) -> dict:
             if value.startswith("[") and value.endswith("]"):
                 value = [v.strip() for v in value[1:-1].split(",")]
             # Convert empty values to dict (for nested structures)
+            # Lists are only created when we see actual list items (- prefix)
             elif not value:
+                # Create dict for nested key-value structures
                 value = {}
-                stack.append((indent, value))
+                # Push with indent + 2 to indicate children will be at that level
+                stack.append((indent + 2, value))
+                current_dict[key] = value
+                continue
 
             current_dict[key] = value
 
@@ -144,14 +176,39 @@ def build_agent(yaml_file: Path) -> None:
         template_content = f.read()
 
     # Render template
-    context = {"meta": meta, **meta}
+    context = {"meta": meta}
     rendered = render_template(template_content, context)
 
-    # Write output
-    output_name = meta.get("output_name", meta.get("name", "agent"))
+    # Generate YAML frontmatter
+    name = meta.get("name", "agent")
+    description = meta.get("description", "")
+    model = meta.get("model", "sonnet")
+
+    # Format tools (must be list of strings)
+    tools_list = meta.get("tools", [])
+    if isinstance(tools_list, list):
+        # Filter out non-string items (like output_name that might be in meta)
+        tools_filtered = [t for t in tools_list if isinstance(t, str)]
+        tools_str = ", ".join(tools_filtered)
+    else:
+        tools_str = str(tools_list)
+
+    # Create YAML frontmatter
+    frontmatter = f"""---
+name: {name}
+description: {description}
+tools: {tools_str}
+model: {model}
+---
+
+"""
+
+    # Write output with frontmatter
+    output_name = meta.get("output_name", name)
     output_file = AGENTS_OUT_DIR / f"{output_name}.md"
 
     with open(output_file, "w") as f:
+        f.write(frontmatter)
         f.write(rendered)
 
     print(f"✓ {yaml_file.name} → {output_file.name}")

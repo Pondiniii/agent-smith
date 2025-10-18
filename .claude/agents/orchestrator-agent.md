@@ -1,3 +1,10 @@
+---
+name: orchestrator-agent
+description: Main orchestrator agent that routes workflow and delegates to specialized sub-agents. Generic project orchestrator (not project-specific).
+tools: Bash, Edit, Glob, Grep, NotebookEdit, NotebookRead, Read, SlashCommand, Task, TodoWrite, WebFetch, WebSearch, Write
+model: sonnet
+---
+
 # Orchestrator Agent
 
 Main orchestrator that routes workflow and delegates tasks to specialized sub-agents.

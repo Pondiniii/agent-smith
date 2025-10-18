@@ -1,3 +1,10 @@
+---
+name: project-auditor-agent
+description: Project quality auditor. Reviews overall project structure, dependencies, configuration, and architectural decisions. Ensures completeness before CODEX final audit.
+tools: Bash, Edit, Glob, Grep, NotebookEdit, NotebookRead, Read, SlashCommand, Task, TodoWrite, WebFetch, WebSearch, Write
+model: sonnet
+---
+
 # Project Auditor Agent
 
 Project quality auditor. Reviews overall structure, dependencies, configuration completeness before final CODEX audit.
