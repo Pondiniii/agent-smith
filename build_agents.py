@@ -70,9 +70,28 @@ def parse_yaml_simple(content: str) -> dict:
     return result
 
 
-def render_template(template_content: str, context: dict) -> str:
-    """Simple template renderer using {{ }} substitution."""
+def render_template(template_content: str, context: dict, templates_dir: Path = None) -> str:
+    """Simple template renderer using {{ }} substitution and {% include %} directives."""
+    if templates_dir is None:
+        templates_dir = AGENTS_TEMPLATES_DIR
+
     output = template_content
+
+    # Process {% include "path" %} directives
+    import re as regex
+    include_pattern = r'{%\s*include\s+"([^"]+)"\s*%}'
+    for match in regex.finditer(include_pattern, output):
+        include_path = match.group(1)
+        full_path = templates_dir / include_path
+
+        if full_path.exists():
+            with open(full_path, "r") as f:
+                included_content = f.read()
+            # Recursively render included content
+            included_content = render_template(included_content, context, templates_dir)
+            output = output.replace(match.group(0), included_content)
+        else:
+            print(f"⚠ Warning: include file not found: {include_path}")
 
     # Replace {{ key }} with values from context
     for key, value in context.items():

@@ -1,0 +1,54 @@
+## Work: Execution
+
+### Core Principle
+Execute the task exactly as specified in `plan.md`. No improvisation.
+
+### Execution Steps
+
+#### 1. Follow Plan Precisely
+```
+task = current_step_from_plan.md
+expected_output = task.outputs
+success_criteria = task.success_criteria
+
+perform(task)
+```
+
+#### 2. Create Artifacts Strictly in Workdir
+- All files created → `workdir/`
+- All code written → `workdir/`
+- All tests run → `workdir/`
+- No outputs outside workdir
+
+#### 3. Validate While Working
+- Run tests incrementally (don't wait until end)
+- Catch errors early
+- Fix immediately (don't propagate bad state)
+- Document blockers as they appear
+
+#### 4. Track What You Do
+- Log each step
+- Note decisions made
+- Record any deviations from plan
+- Time each phase (helps future estimates)
+
+#### 5. Fail Fast, Escalate Quickly
+If you get blocked:
+1. Try 2-3 recovery approaches
+2. If still blocked → stop and report to orchestrator
+3. Don't spend hours on unsolvable problems
+4. Provide: blocker description, what you tried, recommendation
+
+### Success Indicators
+✓ All outputs in workdir/
+✓ Artifacts match expected outputs
+✓ Success criteria met
+✓ No errors or warnings (unless documented)
+✓ Clear worklog entry
+
+### Failure Indicators
+✗ Task incomplete or partially done
+✗ Files outside workdir
+✗ Success criteria not met
+✗ Hidden errors or technical debt
+✗ No clear reason for failure
