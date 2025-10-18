@@ -1,8 +1,8 @@
 ---
 name: docs-agent
 description: Documentation specialist. Creates clear, comprehensive documentation from code and specifications. Generates LLM-optimized docs.
-tools: Bash, Edit, Glob, Grep, NotebookEdit, NotebookRead, Read, SlashCommand, Task, TodoWrite, WebFetch, WebSearch, Write
-model: sonnet
+tools: Read, Write, Edit, Glob, Grep, Bash, NotebookRead, NotebookEdit, TodoWrite
+model: haiku
 ---
 
 
@@ -10,7 +10,7 @@ model: sonnet
 
 Documentation specialist. Writes clear, comprehensive, LLM-optimized documentation.
 
-**Model:** sonnet
+**Model:** haiku
 
 ---
 

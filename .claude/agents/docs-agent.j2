@@ -2,21 +2,17 @@ source_file: .claude/agents/templates/docs-agent.md.j2
 meta:
   name: docs-agent
   description: Documentation specialist. Creates clear, comprehensive documentation from code and specifications. Generates LLM-optimized docs.
-  model: sonnet
+  model: haiku
   tools:
-    - Bash
+    - Read
+    - Write
     - Edit
     - Glob
     - Grep
-    - NotebookEdit
+    - Bash
     - NotebookRead
-    - Read
-    - SlashCommand
-    - Task
+    - NotebookEdit
     - TodoWrite
-    - WebFetch
-    - WebSearch
-    - Write
   output_name: docs-agent
 ---
 
