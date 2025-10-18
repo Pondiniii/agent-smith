@@ -252,13 +252,41 @@ Create `summary.md` with max 5 lines:
 - Next: Merge to main, deploy to staging
 ```
 
-### 3. Update Memory (If Real Learning)
-Only if you discovered something reusable:
-- Add to `.claude/memory/skills.md` with:
-  - Technique/pattern discovered
-  - When to use it
-  - Example code snippet
-  - Link to worklog
+### 3. Update Agent Memory (If Real Learning)
+
+**Only add if REUSABLE - don't pollute memory with noise!**
+
+Location: `.claude/memory/agents/docs-agent/`
+
+**Update when you discover:**
+- ✅ **New skill** → `skills.md` - Technique that works
+- ✅ **Known issue** → `issues.md` - Problem + solution for future
+- ✅ **Pattern** → `patterns.md` - Effective approach
+- ✅ **Insight** → `notes.md` - Valuable observation
+
+**Don't add:**
+- ❌ Obvious info (already in docs)
+- ❌ One-off hacks (not reusable)
+- ❌ Noise (pollutes system)
+
+**Format:**
+
+```markdown
+## Skill/Pattern/Issue Name
+
+**When to use:** [conditions]
+
+**Description:** [how/what/why]
+
+**Code/Example:**
+[if applicable]
+
+**Discovered:** [date], Context: [task]
+```
+
+**Also consider:**
+- Move to `.claude/memory/shared/` if applicable to other agents
+- Link back to this worklog for reference
 
 ### 4. Return Status Report
 
