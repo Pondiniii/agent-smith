@@ -1,0 +1,12 @@
+source_file: .claude/agents/templates/orchestrator.md.j2
+meta:
+  name: orchestrator
+  description: Main orchestrator agent that delegates work to specialized sub-agents
+  model: sonnet
+  tools:
+    - read
+    - write
+    - edit
+    - task  # Can spawn sub-agents
+    - shell
+  output_name: orchestrator

@@ -1,0 +1,9 @@
+source_file: .claude/agents/templates/validator_codex.md.j2
+meta:
+  name: codex-auditor
+  description: Senior CODEX validator ensuring phase and final PRD compliance.
+  model: codex-1m
+  tools:
+    - read
+    - shell
+  output_name: codex-auditor

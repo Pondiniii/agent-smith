@@ -1,0 +1,11 @@
+source_file: .claude/agents/templates/coding_agent.md.j2
+meta:
+  name: coding-agent
+  description: Atomic Claude coding agent with pre/work/post lifecycle.
+  model: sonnet
+  tools:
+    - read
+    - write
+    - shell
+    - git
+  output_name: coding-agent
