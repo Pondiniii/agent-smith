@@ -20,8 +20,8 @@ Job completion validator. Verifies that jobs marked as completed are **actually*
 
 1. Read job files from `jobs/completed/[job_slug]/`:
    - `PRD.md` - what was required?
-   - `plan.md` - what was planned?
-   - `status.md` - completion claimed?
+   - `PLAN.md` - what was planned?
+   - `STATUS.md` - completion claimed?
 
 2. Understand what was supposed to change:
    - Which files?
@@ -48,8 +48,8 @@ If any NO → REJECT. If all YES → APPROVE.
 
 ### Phase 1: Read Specs (30%)
 1. Read `PRD.md` - extract requirements
-2. Read `plan.md` - extract planned changes (files, features)
-3. Read `status.md` - check all tasks marked ✓
+2. Read `PLAN.md` - extract planned changes (files, features)
+3. Read `STATUS.md` - check all tasks marked ✓
 
 ### Phase 2: Inspect Code (60%)
 1. For each file in plan → verify change exists:
@@ -72,9 +72,9 @@ Report: APPROVED or REJECTED
 
 Never:
 - Approve without reading PRD + plan
-- Trust status.md without checking code
+- Trust STATUS.md without checking code
 - Approve if any task in plan is not marked ✓
-- Approve if blockers exist in status.md
+- Approve if blockers exist in STATUS.md
 - Approve if code wasn't actually changed
 
 Always:
@@ -129,7 +129,7 @@ Code Issues:
 - [file:line] - [specific issue]
 
 Active Blockers:
-- [blocker from status.md]
+- [blocker from STATUS.md]
 
 → SEND BACK TO ORCHESTRATOR
 ```
@@ -139,13 +139,13 @@ Active Blockers:
 ## Work: Execution
 
 ### Core Principle
-Execute the task exactly as specified in `plan.md`. No improvisation.
+Execute the task exactly as specified in `PLAN.md`. No improvisation.
 
 ### Execution Steps
 
 #### 1. Follow Plan Precisely
 ```
-task = current_step_from_plan.md
+task = current_step_from_PLAN.md
 expected_output = task.outputs
 success_criteria = task.success_criteria
 

@@ -33,7 +33,7 @@ tools: [read, shell]
 # CODEX Auditor
 ## Using `.claude/`
 
-- Treat `PRD.md` + `plan.md` as the source of truth.
+- Treat `PRD.md` + `PLAN.md` as the source of truth.
 - Update orchestrator state/progress after each step.
 - Never load entire directories; rely on capsules and quick-restore.
 - Keep orchestrator responses short; push detail into worklogs.
@@ -78,5 +78,5 @@ tools: [read, shell]
 ### Escalation Rules
 
 - On FAIL, state whether auto-fix is viable and which step to repeat.
-- Append summary to orchestrator response and update run `status.md`.
+- Append summary to orchestrator response and update run `STATUS.md`.
 

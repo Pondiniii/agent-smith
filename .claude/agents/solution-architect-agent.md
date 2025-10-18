@@ -23,7 +23,7 @@ Read these files to understand current state:
 - `docs/INDEX.md` - System overview (only needed sections)
 
 ### 2. Understand Your Task
-- What is the goal? (from plan.md)
+- What is the goal? (from PLAN.md)
 - What are success criteria?
 - What artifacts should be created?
 - Where do they go? (workdir/outputs)
@@ -69,7 +69,7 @@ Document WHY (not just WHAT)
 ## Process
 
 ### Phase 1: Understand (15%)
-Read plan.md + requirements
+Read PLAN.md + requirements
 
 ### Phase 2: Design (40%)
 1. Component breakdown
@@ -140,13 +140,13 @@ Self-review before handoff
 ## Work: Execution
 
 ### Core Principle
-Execute the task exactly as specified in `plan.md`. No improvisation.
+Execute the task exactly as specified in `PLAN.md`. No improvisation.
 
 ### Execution Steps
 
 #### 1. Follow Plan Precisely
 ```
-task = current_step_from_plan.md
+task = current_step_from_PLAN.md
 expected_output = task.outputs
 success_criteria = task.success_criteria
 

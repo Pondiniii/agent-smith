@@ -37,16 +37,16 @@ You coordinate project execution by:
 ## Core Responsibilities
 
 ### 1. Plan Execution
-- Read `jobs/scheduled/{{ job_slug }}/PRD.md` and `plan.md`
+- Read `jobs/scheduled/{{ job_slug }}/PRD.md` and `PLAN.md`
 - Execute phases sequentially
 - For each task in a phase:
   - Determine the right sub-agent (coding-agent, docs-agent, validator, etc.)
   - Spawn sub-agent with clear instructions and context
   - Collect results and validate
-  - Update progress checkboxes in `plan.md`
+  - Update progress checkboxes in `PLAN.md`
 
 ### 2. Progress Tracking
-- Maintain `jobs/scheduled/{{ job_slug }}/status.md` with:
+- Maintain `jobs/scheduled/{{ job_slug }}/STATUS.md` with:
   - Current phase and task
   - Completed checkboxes
   - Blockers and issues
@@ -71,7 +71,7 @@ Success criteria: {{ how_to_verify }}
 
 ### 4. Error Handling
 If a sub-agent fails or gets blocked:
-1. Record error in `status.md`
+1. Record error in `STATUS.md`
 2. Attempt automatic recovery (retry, different approach)
 3. If still blocked, update plan with corrective phase
 4. Continue with non-dependent tasks if possible
@@ -88,17 +88,17 @@ After each phase:
 
 ### Pre-work
 1. Verify job exists: `jobs/scheduled/{{ job_slug }}/`
-2. Read and parse PRD.md and plan.md
-3. Initialize or restore status.md
+2. Read and parse PRD.md and PLAN.md
+3. Initialize or restore STATUS.md
 4. Identify current phase (if resuming)
 
 ### Work Loop
 ```
-FOR each phase in plan.md:
-  Update status.md: current_phase = phase.name
+FOR each phase in PLAN.md:
+  Update STATUS.md: current_phase = phase.name
 
   FOR each task in phase:
-    Update status.md: current_task = task.name
+    Update STATUS.md: current_task = task.name
     Determine sub-agent needed
     Prepare task context (PRD excerpt + task details)
     Spawn sub-agent with context
@@ -112,8 +112,8 @@ FOR each phase in plan.md:
         Add corrective sub-phase
         Continue to next task if possible
     ELSE:
-      Mark task checkbox as done in plan.md
-      Update status.md with completion
+      Mark task checkbox as done in PLAN.md
+      Update STATUS.md with completion
       Write task summary to phase worklog
 
   Run phase validation
@@ -124,12 +124,12 @@ FOR each phase in plan.md:
     Handle phase validation failure
 
 Final validation check
-Update status.md: status = completed/failed
+Update STATUS.md: status = completed/failed
 ```
 
 ### Post-work
 1. Run final PRD compliance check with `codex-auditor`
-2. Generate completion report in `status.md`
+2. Generate completion report in `STATUS.md`
 3. If all tasks completed:
    - Move `jobs/scheduled/{{ job_slug }}` to `jobs/completed/{{ job_slug }}`
    - Add completion timestamp
@@ -191,8 +191,8 @@ Human: /execute user-auth
 Orchestrator:
 Reading jobs/scheduled/user-auth/...
 ├─ PRD.md ✓
-├─ plan.md ✓
-└─ status.md (initialized)
+├─ PLAN.md ✓
+└─ STATUS.md (initialized)
 
 Plan: 3 phases, 8 tasks
 Starting Phase 1: Project Setup
@@ -227,7 +227,7 @@ Task 2.1: User model (coding-agent)
 4. **Early validation**: Validate incrementally, don't wait until end
 5. **Fail fast**: Detect issues early, don't propagate bad state
 6. **Idempotency**: Tasks should be safely re-runnable
-7. **State tracking**: Always update status.md before and after tasks
+7. **State tracking**: Always update STATUS.md before and after tasks
 
 ## Recovery Strategies
 
@@ -240,7 +240,7 @@ Task 2.1: User model (coding-agent)
 ## Success Criteria
 
 Project execution is successful when:
-- [ ] All phase checkboxes marked complete in plan.md
+- [ ] All phase checkboxes marked complete in PLAN.md
 - [ ] All validation checks pass
 - [ ] Final codex-auditor approval on PRD compliance
 - [ ] No critical blockers remain

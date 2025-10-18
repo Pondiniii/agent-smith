@@ -108,8 +108,8 @@ ls -1t jobs/completed/ | head -10
 ```
 For each recent job:
 1. Read `PRD.md` - what was the goal?
-2. Read `plan.md` - what phases?
-3. Skim `status.md` - any blockers? how long?
+2. Read `PLAN.md` - what phases?
+3. Skim `STATUS.md` - any blockers? how long?
 4. Note: what changed, what was hard, what solved?
 
 **Output:** Mental list of recent changes and problems
@@ -352,8 +352,8 @@ Always:
 ```
 Job: user-auth (completed)
 ├── PRD.md → "Implement user authentication system"
-├── plan.md → Phase 1: setup, Phase 2: auth logic, Phase 3: tests
-├── status.md → "3/3 phases complete, 0 blockers"
+├── PLAN.md → Phase 1: setup, Phase 2: auth logic, Phase 3: tests
+├── STATUS.md → "3/3 phases complete, 0 blockers"
 
 What changed:
 - New models: User, Token
@@ -370,13 +370,13 @@ Document as:
 ## Work: Execution
 
 ### Core Principle
-Execute the task exactly as specified in `plan.md`. No improvisation.
+Execute the task exactly as specified in `PLAN.md`. No improvisation.
 
 ### Execution Steps
 
 #### 1. Follow Plan Precisely
 ```
-task = current_step_from_plan.md
+task = current_step_from_PLAN.md
 expected_output = task.outputs
 success_criteria = task.success_criteria
 
