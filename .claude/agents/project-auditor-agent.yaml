@@ -1,0 +1,16 @@
+source_file: .claude/agents/templates/project-auditor-agent.md.j2
+meta:
+  name: project-auditor-agent
+  description: Project quality auditor. Reviews overall project structure, dependencies, configuration, and architectural decisions. Ensures completeness before CODEX final audit.
+  model: sonnet
+  tools:
+    - read_file
+    - bash
+    - glob
+    - grep
+  output_name: project-auditor-agent
+  context_budgets: |
+    - Project Scan: 25%
+    - Analyze Structure: 40%
+    - Check Quality: 20%
+    - Report: 15%

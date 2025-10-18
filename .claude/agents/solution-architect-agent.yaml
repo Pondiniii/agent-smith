@@ -1,0 +1,16 @@
+source_file: .claude/agents/templates/solution-architect-agent.md.j2
+meta:
+  name: solution-architect-agent
+  description: Senior architect with 15+ years experience. Transforms project plan into detailed technical architecture and implementation guide.
+  model: sonnet
+  tools:
+    - read_file
+    - write_file
+    - edit_file
+  output_name: solution-architect-agent
+  context_budgets: |
+    - Understand: 15%
+    - Design: 40%
+    - Plan: 25%
+    - Document Decisions: 10%
+    - Review: 10%

@@ -1,0 +1,14 @@
+source_file: .claude/agents/templates/orchestrator-agent.md.j2
+meta:
+  name: orchestrator-agent
+  description: Main orchestrator agent that routes workflow and delegates to specialized sub-agents. Generic project orchestrator (not project-specific).
+  model: sonnet
+  tools:
+    - read_file
+    - bash
+  output_name: orchestrator-agent
+  context_budgets: |
+    - State Detection: 30%
+    - Decision Logic: 20%
+    - Validation: 25%
+    - Reporting: 25%

@@ -1,0 +1,15 @@
+source_file: .claude/agents/templates/code-smoke-tester-agent.md.j2
+meta:
+  name: code-smoke-tester-agent
+  description: Fast smoke tester. Runs quick validation tests (compile, lint, unit tests). Quick feedback loop for coding-agent.
+  model: sonnet
+  tools:
+    - bash
+    - read_file
+    - grep
+  output_name: code-smoke-tester-agent
+  context_budgets: |
+    - Detect Language: 5%
+    - Run Tests: 60%
+    - Parse Errors: 25%
+    - Report: 10%
