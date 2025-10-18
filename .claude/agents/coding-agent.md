@@ -110,6 +110,101 @@ If you get blocked:
 
 ## Post-work: Reporting & Documentation
 
+### Learning from Memory
+
+## Learning from Memory
+
+Before or during work, consult the agent memory system for proven techniques and known issues.
+
+### Reading Memory
+
+**Your personal memory:**
+```bash
+.claude/memory/agents/coding-agent/
+├── skills.md    # Your proven techniques
+├── issues.md    # Problems you've solved
+├── patterns.md  # Effective approaches
+└── notes.md     # Your observations
+```
+
+**Shared knowledge (all agents):**
+```bash
+.claude/memory/shared/
+├── skills.md    # Universal techniques
+├── patterns.md  # Design patterns
+└── learnings.md # General insights
+```
+
+**When to check:**
+- Before starting: "Has anyone solved this before?"
+- Getting stuck: "Is there a known issue + solution?"
+- Designing: "What patterns have worked?"
+
+**Search example:**
+```bash
+grep -r "database connection" .claude/memory/agents/
+grep -r "timeout handling" .claude/memory/shared/
+```
+
+### Writing Memory
+
+After discovering something reusable, update your memory.
+
+**When to add:**
+✅ New technique that works (reusable)
+✅ Problem you solved + solution
+✅ Effective pattern discovered
+✅ Valuable insight/observation
+
+**When NOT to add:**
+❌ Obvious information (already in docs)
+❌ One-off hacks (not reusable)
+❌ Noise (pollutes system)
+
+**Format for memory entries:**
+
+```markdown
+## Topic Name
+
+**When to use:** [conditions/triggers]
+
+**Description:** [how it works / what it does]
+
+**Example:**
+[code snippet or concrete example]
+
+**Discovered:** [date], [task context]
+```
+
+**Update your memory in:**
+- `agents/coding-agent/skills.md` - Technique works
+- `agents/coding-agent/issues.md` - Problem + fix
+- `agents/coding-agent/patterns.md` - Pattern effective
+- `agents/coding-agent/notes.md` - Free-form insight
+
+**Move to shared when:**
+- Pattern applies to multiple agents
+- Technique is universally useful
+- Proven through multiple uses
+
+**Example workflow:**
+1. Discover: "Retry with exponential backoff works great for network"
+2. Add to: `agents/coding-agent/skills.md`
+3. Note: "Works for code-smoke-tester too"
+4. Promote: Move to `shared/skills.md`
+5. Link: From agent memory back to shared
+
+### Memory Golden Rule
+
+**Only add if REUSABLE and VALUABLE**
+
+Future agents will thank you for good learnings. Protect quality by refusing noise.
+
+---
+
+
+---
+
 ### 1. Save Detailed Worklog
 Create/update `worklog.md` with:
 ```markdown
@@ -202,9 +297,139 @@ Location: `.claude/memory/agents/coding-agent/`
 - Move to `.claude/memory/shared/` if applicable to other agents
 - Link back to this worklog for reference
 
-### 4. Return Status Report
+---
+
+### 4. Save Agent Report
+
+### 4. Save Agent Report
+
+After completing work, save a detailed report to `.claude/jobs/agent-reports/`
+
+**Report purpose:**
+- Audit trail: What did you do?
+- Learning: What was learned?
+- Handoff: What's the next step?
+- Debugging: If issues arise, trace what happened
+
+**Report filename:**
+```
+coding-agent_[jobslug]_[timestamp].md
+```
+
+Example: `coding-agent_user-auth_20251018-2145.md`
+
+**Report structure:**
+
+```markdown
+# Agent Report: coding-agent
+
+**Job:** [job slug]
+**Task:** [what was done]
+**Date:** [timestamp]
+**Status:** success | partial | fail | blocked
+
+## Summary
+[1-2 line summary of what happened]
+
+## Work Done
+1. [Task 1] → Result
+2. [Task 2] → Result
+3. [Task 3] → Result
+
+## Artifacts Created
+- [file1] - [purpose]
+- [file2] - [purpose]
+
+## Time Spent
+- Phase 1: X min
+- Phase 2: Y min
+- Total: Z min
+
+## Quality Metrics
+- Tests: X/X passing
+- Warnings: 0
+- Coverage: X%
+
+## Decisions Made
+- Decision 1: [rationale]
+- Decision 2: [rationale]
+
+## Issues Encountered
+- Issue 1: [symptom] → [fix applied]
+- Issue 2: [symptom] → [workaround used]
+
+## Learnings & Improvements
+- Skill: [new technique discovered]
+- Pattern: [effective pattern found]
+- Issue: [problem + solution for future]
+
+## Next Steps
+[What should happen next / blocker if any]
+
+## Link to Worklog
+See detailed worklog: [path to worklog.md if exists]
+```
+
+### 5. Orchestrator Integration
+
+Orchestrator reads agent reports from `.claude/jobs/agent-reports/` to:
+- Track agent execution history
+- Detect patterns/issues
+- Learn which agents are most effective
+- Debug if problems occur
+
+**Reports are automatically indexed by:**
+- Agent name
+- Job slug
+- Timestamp
+
+**Query reports:**
+```bash
+ls .claude/jobs/agent-reports/coding-agent_*.md
+grep -l "failed" .claude/jobs/agent-reports/*.md
+```
+
+### 6. Archive Old Reports
+
+Periodically archive old reports (>30 days):
+```bash
+mkdir -p .claude/jobs/agent-reports/archive/
+mv .claude/jobs/agent-reports/*_202509*.md archive/
+```
+
+---
+
+
+---
+
+### 5. Return Status Report
 
 Format:
+```markdown
+## Status Report
+
+**Status:** success | fail | partial | blocked
+
+**Output:**
+- Artifacts: list what was created
+- Location: where they are (workdir path)
+- Tests: pass/fail counts
+
+**Next Step:**
+- If success: what should happen next
+- If fail: what needs to happen next
+- If blocked: what's blocking + recommendation
+
+**Issues:**
+- List any outstanding issues
+- Document workarounds used
+- Flag anything needing manual review
+```
+
+### Status Report Format
+
+**Concise format (report to orchestrator):**
+
 ```markdown
 ## Status Report
 

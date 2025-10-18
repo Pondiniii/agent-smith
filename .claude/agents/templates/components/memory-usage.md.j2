@@ -1,0 +1,89 @@
+## Learning from Memory
+
+Before or during work, consult the agent memory system for proven techniques and known issues.
+
+### Reading Memory
+
+**Your personal memory:**
+```bash
+.claude/memory/agents/{{ meta.name }}/
+├── skills.md    # Your proven techniques
+├── issues.md    # Problems you've solved
+├── patterns.md  # Effective approaches
+└── notes.md     # Your observations
+```
+
+**Shared knowledge (all agents):**
+```bash
+.claude/memory/shared/
+├── skills.md    # Universal techniques
+├── patterns.md  # Design patterns
+└── learnings.md # General insights
+```
+
+**When to check:**
+- Before starting: "Has anyone solved this before?"
+- Getting stuck: "Is there a known issue + solution?"
+- Designing: "What patterns have worked?"
+
+**Search example:**
+```bash
+grep -r "database connection" .claude/memory/agents/
+grep -r "timeout handling" .claude/memory/shared/
+```
+
+### Writing Memory
+
+After discovering something reusable, update your memory.
+
+**When to add:**
+✅ New technique that works (reusable)
+✅ Problem you solved + solution
+✅ Effective pattern discovered
+✅ Valuable insight/observation
+
+**When NOT to add:**
+❌ Obvious information (already in docs)
+❌ One-off hacks (not reusable)
+❌ Noise (pollutes system)
+
+**Format for memory entries:**
+
+```markdown
+## Topic Name
+
+**When to use:** [conditions/triggers]
+
+**Description:** [how it works / what it does]
+
+**Example:**
+[code snippet or concrete example]
+
+**Discovered:** [date], [task context]
+```
+
+**Update your memory in:**
+- `agents/{{ meta.name }}/skills.md` - Technique works
+- `agents/{{ meta.name }}/issues.md` - Problem + fix
+- `agents/{{ meta.name }}/patterns.md` - Pattern effective
+- `agents/{{ meta.name }}/notes.md` - Free-form insight
+
+**Move to shared when:**
+- Pattern applies to multiple agents
+- Technique is universally useful
+- Proven through multiple uses
+
+**Example workflow:**
+1. Discover: "Retry with exponential backoff works great for network"
+2. Add to: `agents/coding-agent/skills.md`
+3. Note: "Works for code-smoke-tester too"
+4. Promote: Move to `shared/skills.md`
+5. Link: From agent memory back to shared
+
+### Memory Golden Rule
+
+**Only add if REUSABLE and VALUABLE**
+
+Future agents will thank you for good learnings. Protect quality by refusing noise.
+
+---

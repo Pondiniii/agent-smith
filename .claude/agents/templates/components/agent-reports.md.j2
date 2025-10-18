@@ -1,0 +1,97 @@
+### 4. Save Agent Report
+
+After completing work, save a detailed report to `.claude/jobs/agent-reports/`
+
+**Report purpose:**
+- Audit trail: What did you do?
+- Learning: What was learned?
+- Handoff: What's the next step?
+- Debugging: If issues arise, trace what happened
+
+**Report filename:**
+```
+{{ meta.name }}_[jobslug]_[timestamp].md
+```
+
+Example: `coding-agent_user-auth_20251018-2145.md`
+
+**Report structure:**
+
+```markdown
+# Agent Report: {{ meta.name }}
+
+**Job:** [job slug]
+**Task:** [what was done]
+**Date:** [timestamp]
+**Status:** success | partial | fail | blocked
+
+## Summary
+[1-2 line summary of what happened]
+
+## Work Done
+1. [Task 1] → Result
+2. [Task 2] → Result
+3. [Task 3] → Result
+
+## Artifacts Created
+- [file1] - [purpose]
+- [file2] - [purpose]
+
+## Time Spent
+- Phase 1: X min
+- Phase 2: Y min
+- Total: Z min
+
+## Quality Metrics
+- Tests: X/X passing
+- Warnings: 0
+- Coverage: X%
+
+## Decisions Made
+- Decision 1: [rationale]
+- Decision 2: [rationale]
+
+## Issues Encountered
+- Issue 1: [symptom] → [fix applied]
+- Issue 2: [symptom] → [workaround used]
+
+## Learnings & Improvements
+- Skill: [new technique discovered]
+- Pattern: [effective pattern found]
+- Issue: [problem + solution for future]
+
+## Next Steps
+[What should happen next / blocker if any]
+
+## Link to Worklog
+See detailed worklog: [path to worklog.md if exists]
+```
+
+### 5. Orchestrator Integration
+
+Orchestrator reads agent reports from `.claude/jobs/agent-reports/` to:
+- Track agent execution history
+- Detect patterns/issues
+- Learn which agents are most effective
+- Debug if problems occur
+
+**Reports are automatically indexed by:**
+- Agent name
+- Job slug
+- Timestamp
+
+**Query reports:**
+```bash
+ls .claude/jobs/agent-reports/coding-agent_*.md
+grep -l "failed" .claude/jobs/agent-reports/*.md
+```
+
+### 6. Archive Old Reports
+
+Periodically archive old reports (>30 days):
+```bash
+mkdir -p .claude/jobs/agent-reports/archive/
+mv .claude/jobs/agent-reports/*_202509*.md archive/
+```
+
+---
