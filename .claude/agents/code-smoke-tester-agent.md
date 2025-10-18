@@ -5,6 +5,7 @@ tools: Bash, Edit, Glob, Grep, NotebookEdit, NotebookRead, Read, SlashCommand, T
 model: sonnet
 ---
 
+
 # Code Smoke Tester Agent
 
 Fast smoke tester providing quick feedback to coding-agent. Fast validation loop, not deep review.

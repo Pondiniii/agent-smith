@@ -1,3 +1,25 @@
+source_file: .claude/agents/templates/docs-agent.md.j2
+meta:
+  name: docs-agent
+  description: Documentation specialist. Creates clear, comprehensive documentation from code and specifications. Generates LLM-optimized docs.
+  model: sonnet
+  tools:
+    - Bash
+    - Edit
+    - Glob
+    - Grep
+    - NotebookEdit
+    - NotebookRead
+    - Read
+    - SlashCommand
+    - Task
+    - TodoWrite
+    - WebFetch
+    - WebSearch
+    - Write
+  output_name: docs-agent
+---
+
 # Docs Agent
 
 Documentation specialist. Writes clear, comprehensive, LLM-optimized documentation.

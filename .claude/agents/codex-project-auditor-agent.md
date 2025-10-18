@@ -5,6 +5,7 @@ tools: Bash, Edit, Glob, Grep, NotebookEdit, NotebookRead, Read, SlashCommand, T
 model: sonnet
 ---
 
+
 # CODEX Project Auditor Agent
 
 Final CODEX validator. Ensures project meets all PRD requirements and quality standards. Gatekeeper before deployment.

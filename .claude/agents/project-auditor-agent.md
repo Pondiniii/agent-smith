@@ -5,6 +5,7 @@ tools: Bash, Edit, Glob, Grep, NotebookEdit, NotebookRead, Read, SlashCommand, T
 model: sonnet
 ---
 
+
 # Project Auditor Agent
 
 Project quality auditor. Reviews overall structure, dependencies, configuration completeness before final CODEX audit.

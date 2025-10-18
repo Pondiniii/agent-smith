@@ -5,6 +5,7 @@ tools: Bash, Edit, Glob, Grep, NotebookEdit, NotebookRead, Read, SlashCommand, T
 model: sonnet
 ---
 
+
 ---
 name: codex-auditor
 description: Senior CODEX validator ensuring phase and final PRD compliance.

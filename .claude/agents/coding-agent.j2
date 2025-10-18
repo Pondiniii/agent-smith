@@ -1,3 +1,25 @@
+source_file: .claude/agents/templates/coding_agent.md.j2
+meta:
+  name: coding-agent
+  description: Atomic Claude coding agent with pre/work/post lifecycle.
+  model: sonnet
+  tools:
+    - Bash
+    - Edit
+    - Glob
+    - Grep
+    - NotebookEdit
+    - NotebookRead
+    - Read
+    - SlashCommand
+    - Task
+    - TodoWrite
+    - WebFetch
+    - WebSearch
+    - Write
+  output_name: coding-agent
+---
+
 # Coding Agent
 
 Atomic Claude coding agent focused on implementation tasks. Follows strict pre-work → work → post-work lifecycle.

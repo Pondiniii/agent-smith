@@ -1,3 +1,25 @@
+source_file: .claude/agents/templates/orchestrator-agent.md.j2
+meta:
+  name: orchestrator-agent
+  description: Main orchestrator agent that routes workflow and delegates to specialized sub-agents. Generic project orchestrator (not project-specific).
+  model: sonnet
+  tools:
+    - Bash
+    - Edit
+    - Glob
+    - Grep
+    - NotebookEdit
+    - NotebookRead
+    - Read
+    - SlashCommand
+    - Task
+    - TodoWrite
+    - WebFetch
+    - WebSearch
+    - Write
+  output_name: orchestrator-agent
+---
+
 # Orchestrator Agent
 
 Main orchestrator that routes workflow and delegates tasks to specialized sub-agents.

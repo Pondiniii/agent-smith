@@ -5,6 +5,7 @@ tools: Bash, Edit, Glob, Grep, NotebookEdit, NotebookRead, Read, SlashCommand, T
 model: sonnet
 ---
 
+
 # Docs Agent
 
 Documentation specialist. Writes clear, comprehensive, LLM-optimized documentation.

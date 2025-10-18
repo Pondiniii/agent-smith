@@ -1,15 +1,20 @@
 #!/usr/bin/env python3
 """
-Regenerate agent markdown files from YAML config + template files.
+Build agent markdown files from unified .j2 definition files.
 
 Structure:
     .claude/agents/
-    ├── orchestrator.yaml          ← Config
-    ├── orchestrator.md            ← Generated output
-    └── templates/
-        └── orchestrator.md.j2     ← Template
+    ├── orchestrator-agent.j2      ← Agent definition (YAML config + template)
+    ├── coding-agent.j2
+    └── components/
+        ├── prework.md.j2
+        ├── work.md.j2
+        └── ...
 
-Minimalist version with no external dependencies.
+Each .j2 file has:
+  [Lines 1-N: YAML config]
+  ---
+  [Lines N+2+: Markdown template]
 
 Usage:
     python build_agents.py              # Build all agents
@@ -22,9 +27,6 @@ from pathlib import Path
 
 
 AGENTS_DIR = Path(".claude/agents")
-AGENTS_TEMPLATES_DIR = AGENTS_DIR / "templates"
-AGENTS_SRC_DIR = AGENTS_DIR  # YAML files live in .claude/agents/
-AGENTS_OUT_DIR = AGENTS_DIR  # Output MD files also go here
 
 
 def parse_yaml_simple(content: str) -> dict:
@@ -44,14 +46,12 @@ def parse_yaml_simple(content: str) -> dict:
         # Handle list items (lines starting with -)
         if line.lstrip().startswith("- "):
             # Find the parent dict by popping to the right indent level
-            # List items should be children of a key one level up
             while len(stack) > 1 and indent <= stack[-1][0]:
                 stack.pop()
 
             parent_dict = stack[-1][1]
 
             # Find which key at this indent level owns this list
-            # It should be the last key we saw at indent - 2
             list_key_indent = indent - 2
             list_key = last_key_at_indent.get(list_key_indent)
 
@@ -88,7 +88,6 @@ def parse_yaml_simple(content: str) -> dict:
             if value.startswith("[") and value.endswith("]"):
                 value = [v.strip() for v in value[1:-1].split(",")]
             # Convert empty values to dict (for nested structures)
-            # Lists are only created when we see actual list items (- prefix)
             elif not value:
                 # Create dict for nested key-value structures
                 value = {}
@@ -102,25 +101,21 @@ def parse_yaml_simple(content: str) -> dict:
     return result
 
 
-def render_template(template_content: str, context: dict, templates_dir: Path = None) -> str:
+def render_template(template_content: str, context: dict) -> str:
     """Simple template renderer using {{ }} substitution and {% include %} directives."""
-    if templates_dir is None:
-        templates_dir = AGENTS_TEMPLATES_DIR
-
     output = template_content
 
     # Process {% include "path" %} directives
-    import re as regex
     include_pattern = r'{%\s*include\s+"([^"]+)"\s*%}'
-    for match in regex.finditer(include_pattern, output):
+    for match in re.finditer(include_pattern, output):
         include_path = match.group(1)
-        full_path = templates_dir / include_path
+        full_path = AGENTS_DIR / include_path
 
         if full_path.exists():
             with open(full_path, "r") as f:
                 included_content = f.read()
             # Recursively render included content
-            included_content = render_template(included_content, context, templates_dir)
+            included_content = render_template(included_content, context)
             output = output.replace(match.group(0), included_content)
         else:
             print(f"⚠ Warning: include file not found: {include_path}")
@@ -146,40 +141,30 @@ def render_template(template_content: str, context: dict, templates_dir: Path = 
     return output
 
 
-def build_agent(yaml_file: Path) -> None:
-    """Build a single agent from YAML + template."""
+def build_agent(j2_file: Path) -> None:
+    """Build a single agent from .j2 definition file."""
 
-    # Load YAML config
-    with open(yaml_file, "r") as f:
-        config = parse_yaml_simple(f.read())
+    # Read .j2 file
+    with open(j2_file, "r") as f:
+        content = f.read()
 
-    source_file = config.get("source_file")
+    # Split into YAML config and template at "---" separator
+    parts = content.split("---\n", 1)
+    if len(parts) != 2:
+        print(f"⚠ Skip {j2_file.name}: missing '---' separator between config and template")
+        return
+
+    yaml_content, template_content = parts
+
+    # Parse YAML config
+    config = parse_yaml_simple(yaml_content)
     meta = config.get("meta", {})
 
-    if not source_file:
-        print(f"⚠ Skip {yaml_file.name}: no source_file specified")
+    if not meta:
+        print(f"⚠ Skip {j2_file.name}: no meta section in YAML")
         return
 
-    # Load template
-    # Handle both relative and absolute paths
-    if "/" in source_file:
-        template_path = Path(source_file)
-    else:
-        template_path = AGENTS_TEMPLATES_DIR / source_file
-
-    if not template_path.exists():
-        print(f"⚠ Skip {yaml_file.name}: template not found at {template_path}")
-        return
-
-    # Read template
-    with open(template_path, "r") as f:
-        template_content = f.read()
-
-    # Render template
-    context = {"meta": meta}
-    rendered = render_template(template_content, context)
-
-    # Generate YAML frontmatter
+    # Extract frontmatter fields
     name = meta.get("name", "agent")
     description = meta.get("description", "")
     model = meta.get("model", "sonnet")
@@ -187,7 +172,6 @@ def build_agent(yaml_file: Path) -> None:
     # Format tools (must be list of strings)
     tools_list = meta.get("tools", [])
     if isinstance(tools_list, list):
-        # Filter out non-string items (like output_name that might be in meta)
         tools_filtered = [t for t in tools_list if isinstance(t, str)]
         tools_str = ", ".join(tools_filtered)
     else:
@@ -203,53 +187,53 @@ model: {model}
 
 """
 
+    # Render template
+    context = {"meta": meta}
+    rendered = render_template(template_content, context)
+
     # Write output with frontmatter
     output_name = meta.get("output_name", name)
-    output_file = AGENTS_OUT_DIR / f"{output_name}.md"
+    output_file = AGENTS_DIR / f"{output_name}.md"
 
     with open(output_file, "w") as f:
         f.write(frontmatter)
         f.write(rendered)
 
-    print(f"✓ {yaml_file.name} → {output_file.name}")
+    print(f"✓ {j2_file.name} → {output_file.name}")
 
 
 def main() -> None:
     """Build all or specific agents."""
 
-    if not AGENTS_SRC_DIR.exists():
-        print(f"Error: {AGENTS_SRC_DIR} not found")
-        sys.exit(1)
-
-    if not AGENTS_TEMPLATES_DIR.exists():
-        print(f"Error: {AGENTS_TEMPLATES_DIR} not found")
+    if not AGENTS_DIR.exists():
+        print(f"Error: {AGENTS_DIR} not found")
         sys.exit(1)
 
     # Determine which agents to build
     if len(sys.argv) > 1:
         # Build specific agent
         agent_name = sys.argv[1]
-        yaml_file = AGENTS_SRC_DIR / f"{agent_name}.yaml"
+        j2_file = AGENTS_DIR / f"{agent_name}.j2"
 
-        if not yaml_file.exists():
-            print(f"Error: {yaml_file} not found")
+        if not j2_file.exists():
+            print(f"Error: {j2_file} not found")
             sys.exit(1)
 
-        build_agent(yaml_file)
+        build_agent(j2_file)
     else:
         # Build all agents
-        yaml_files = sorted(AGENTS_SRC_DIR.glob("*.yaml"))
+        j2_files = sorted(AGENTS_DIR.glob("*.j2"))
 
-        if not yaml_files:
-            print(f"No YAML files found in {AGENTS_SRC_DIR}")
+        if not j2_files:
+            print(f"No .j2 files found in {AGENTS_DIR}")
             sys.exit(1)
 
-        print(f"Building {len(yaml_files)} agent(s)...\n")
+        print(f"Building {len(j2_files)} agent(s)...\n")
 
-        for yaml_file in yaml_files:
-            build_agent(yaml_file)
+        for j2_file in j2_files:
+            build_agent(j2_file)
 
-        print(f"\n✓ Complete: {len(yaml_files)} agent(s) built")
+        print(f"\n✓ Complete: {len(j2_files)} agent(s) built")
 
 
 if __name__ == "__main__":
