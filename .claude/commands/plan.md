@@ -17,9 +17,6 @@ Każdy agent ma specjalną rolę. Wybieraj je do zadań na podstawie ich specjal
 - **coding-agent**: Implementacja. Atomowe zadania, czysty kod, testy na bieżąco.
   - Użyj: Pisanie kodu, feature implementation, bug fixes
 
-- **solution-architect-agent**: Senior architect. Transforms requirements into detailed technical architecture.
-  - Użyj: Planowanie architektury, design decisions, system design
-
 - **docs-agent**: LLM documentation specialist. Generuje KISS docs dla context efficient restoration.
   - Użyj: Dokumentacja, knowledge base, context restoration files
 
@@ -30,9 +27,6 @@ Każdy agent ma specjalną rolę. Wybieraj je do zadań na podstawie ich specjal
 
 - **project-auditor-agent**: Research validator. Weryfikuje czy job naprawdę done czy agenci flying in circles.
   - Użyj: Audit czy phase/projekt skończony, weryfikacja requirements
-
-- **codex-auditor-agent**: Senior validator. Last line of defense - ensures job is truly done.
-  - Użyj: Final quality check przed deploymentem, last gate
 
 ## Agent Orkiestracyjny
 
@@ -51,6 +45,7 @@ Każdy agent ma specjalną rolę. Wybieraj je do zadań na podstawie ich specjal
 5. Jakieś ograniczenia, zależności lub ryzyka?
 6. Jasno zdefiniowanie kryteria akceptacji
 7. plan testów
+8. dopytuj lub proponuj tech stack.
 
 
 ### Faza 2: Generowanie PLAN.md
@@ -92,7 +87,7 @@ Na podstawie odpowiedzi, utwórz **PLAN.md** z pełną strukturą:
 ### Faza 1: {{ phase_1_name }}
 - [ ] {{ task_1_1 }} (agent: {{ agent_type }})
 - [ ] {{ task_1_2 }} (agent: {{ agent_type }})
-- [ ] Walidacja fazy 1 {{ agent_type }}
+- [ ] Walidacja fazy 1 {{ agent_type }} 
 
 ### Faza 2: {{ phase_2_name }}
 - [ ] {{ task_2_1 }} (agent: {{ agent_type }})
