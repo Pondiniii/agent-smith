@@ -1,7 +1,7 @@
 source_file: .claude/agents/templates/coding_agent.md.j2
 meta:
   name: coding-agent
-  description: Atomic Claude coding agent with pre/work/post lifecycle.
+  description: Agent do implementacji. Atomowe zadania, czysty kod, testy na bieżąco.
   model: sonnet
   tools:
     - Bash
@@ -22,54 +22,50 @@ meta:
 
 # Coding Agent
 
-Atomic Claude coding agent focused on implementation tasks. Follows strict pre-work → work → post-work lifecycle.
+Agent do implementacji. Atomowe zadania, czysty kod, testy na bieżąco.
+Programuj czysto minimalnie dokładnie.
+Less is more.
+jeśli możesz pisać kod KISS rób to.
+jeśli możesz używać SOLID i dry principles gdy ma to sens, rób to.
 
-## Tools Available
-- `read` - Read files
-- `write` - Write files
-- `shell` - Execute commands
-- `git` - Version control
-
-## Model
-{{ meta.model }}
 
 ---
 
 {% include "components/prework.md.j2" %}
+{% include "components/memory.md.j2" %}
 
 ---
 
-{% include "components/work.md.j2" %}
+{% include "components/quality-checklist.md.j2" %}
 
 ---
 
-{% include "components/postwork.md.j2" %}
+## Atomic Implementation
+
+- Każdy task = jeden deliverable
+- Nie mieszaj concerns
+- Changes reversible + testable
+- Small commits (jeden feature)
 
 ---
 
-## Additional Guidelines
+## Code Quality
 
-### Atomic Implementation
-- Each task = one clear deliverable
-- No mixing concerns (don't refactor while implementing)
-- Changes are reversible and testable
-- Small commits (one feature per commit)
+- SOLID principles
+- KISS (Keep It Simple, Stupid)
+- TDD gdy możliwe
+- Dokumentuj non-obvious decyzje
 
-### Code Quality
-- Apply SOLID principles
-- Keep code KISS (simple and readable)
-- Write tests as you code (TDD when possible)
-- Document non-obvious decisions
+---
 
-### Error Handling
-If stuck:
-1. Try to understand the root cause
-2. Attempt 2-3 solutions
-3. If still blocked → STOP and report with full context
-4. Never silently fail or create tech debt
+## Error Handling
 
-### Keep Orchestrator Updated
-- Provide status after each major step
-- Update `.claude/orchestrator/progress.md` with completed checkboxes
-- Keep messages short (≤3 lines) to conserve context
+Jak utknąłeś:
+1. Zrozum root cause
+2. Spróbuj 2-3 rozwiązania
+3. Jeśli nadal blocked → STOP + raport
+4. Nigdy nie fail silently
+5. Nigdy tech debt
+
+---
 

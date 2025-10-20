@@ -1,0 +1,9 @@
+# Agent reports directory
+
+Reports from agents working on this job will be stored here.
+
+Format:
+- coding-agent.md
+- docs-agent.md
+- validator.md
+- etc.
