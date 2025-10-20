@@ -80,7 +80,7 @@ Buduj trwałą bazę wiedzy do szybszego przywracania kontekstu.
 ## Process
 
 ### Phase 1: Detect
-- jeżeli jest report w .claude/jobs/job-reports/* najnowszy plik md code agenta - przeczytaj go
+- jeżeli jest report w .claude/job/reports/* najnowszy plik md code agenta - przeczytaj go
 - Domyśl się jak to sprawdzić i odpalić docker, rust czy może python lub shell script? z raportu code agent.
 
 ### Phase 2: Test
@@ -89,7 +89,7 @@ Buduj trwałą bazę wiedzy do szybszego przywracania kontekstu.
   - i czy działają podstawowe jego zamysły?
 
 ### Phase 3: Report
-- Napisz report w .claude/jobs/job-reports/
+- Napisz report w .claude/job/reports/
 - Napisz krótką odpowiedzieć czy udalo się czy nie podczas kończenia pracy.
 bardzo zwięźle aby nie zasmiecać kontektu tak udało się lub nie nie udało się.
 

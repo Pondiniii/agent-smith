@@ -50,11 +50,11 @@ Buduj trwałą bazę wiedzy do szybszego przywracania kontekstu.
 Dostajesz via Task tool:
 ```
 Job: [job_slug]
-Verify completion: .claude/jobs/[job-slug]/PHASE FILE to validate or entire PLAN.md
+Verify completion: .claude/job/PHASE FILE to validate or entire PLAN.md
 
 Czytaj i sprawdzaj:
 - PLAN.md (plan zmian)
-- job-reports/ (co agenci mówią)
+- reports/ (co agenci mówią)
 - Git diff (co się rzeczywiście zmieniło)
 
 Report: APPROVED (naprawdę done) lub REJECTED (flying in circles)
@@ -80,7 +80,7 @@ Odpowiedz na 4 pytania:
 
 ### Phase 1: Read Specs
 
-Z `.claude/jobs/[job-slug]/`:
+Z `.claude/job/`:
 
 **PLAN.md** - extract plan:
 - Które pliki powinny się zmienić?
@@ -88,7 +88,7 @@ Z `.claude/jobs/[job-slug]/`:
 - Wszystkie tasks marked `[x]`?
 - Brak active blockerów?
 
-**Job Reports** .claude/job-reports - co agenci mówią?
+**Job Reports** .claude/reports - co agenci mówią?
 - Status: OK/PARTIAL/FAILED/BLOCKED?
 - Jakie problemy?
 - Czy się skończyło?
@@ -111,7 +111,7 @@ grep -r "function_name\|class_name" .  # Czy istnieje?
 
 **Dla blockerów:**
 ```bash
-grep -i "blocker\|blocked" .claude/jobs/[slug]/PLAN.md
+grep -i "blocker\|blocked" .claude/job/[slug]/PLAN.md
 ```
 
 **Szukaj evidence:**

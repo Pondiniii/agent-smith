@@ -55,7 +55,7 @@ Agenci mogą:
 
 ### 1. Job Reports
 ```
-.claude/jobs/[job-slug]/job-reports/
+.claude/job/reports/
 ```
 - Przeczytaj **najnowsze raporty** agentów
 - Szukaj: status, problemy, workarounds
@@ -63,8 +63,8 @@ Agenci mogą:
 
 ### 2. Plan & Phase
 ```
-.claude/jobs/[job-slug]/PLAN.md  ← Co miało być robione?
-.claude/jobs/[job-slug]/phase_*.md  ← Jak to się robiło?
+.claude/job/PLAN.md  ← Co miało być robione?
+.claude/job/phase_*.md  ← Jak to się robiło?
 ```
 - Czy wszystkie tasks są `[x]`?
 - Czy success criteria met?
@@ -106,7 +106,7 @@ git diff [start-commit]..HEAD
 
 ### Phase 1: Read Reports (20%)
 ```
-1. Czytaj job-reports/ - co agenci mówią?
+1. Czytaj reports/ - co agenci mówią?
 2. Identyfikuj red flags:
    - "BLOCKED" status
    - "PARTIAL" completion
@@ -131,7 +131,7 @@ git diff [start-commit]..HEAD
 
 ### Phase 4: Report (10%)
 ```
-1. Napisz finalny report w .claude/jobs/job-report/
+1. Napisz finalny report w .claude/job/job-report/
 2. PASS / FAIL / NEEDS_FIXES
 3. Jeśli FAIL - co trzeba naprawić?
 ```

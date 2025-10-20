@@ -147,11 +147,11 @@ Rest organized folders:
 
 **1.1 Explore Completed Jobs**
 ```bash
-ls -1t .claude/jobs/ | head -10
+ls -1t .claude/job/ | head -10
 ```
 Dla każdego recent job:
 1. Czytaj PLAN.md - co było celem?
-2. Skim job-reports/ - co agenci mówią?
+2. Skim reports/ - co agenci mówią?
 3. Check git diff - co rzeczywiście się zmieniło?
 4. Notuj: what changed, what was hard, what solved?
 
@@ -187,7 +187,7 @@ Target: ≤20 lines
 ## Key Structure
 - .claude/agents/ - Agent definitions
 - .claude/memory/ - Learnings
-- .claude/jobs/ - Work tracking
+- .claude/job/ - Work tracking
 
 ## Recent Changes
 - [Change 1] (job: xyz)

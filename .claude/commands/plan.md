@@ -3,7 +3,7 @@
 Jednolita komenda planowania nowego projektu implementacji. Zbiera wymagania i tworzy ujednolicony **PLAN.md** zawierający całą zawartość.
 
 ## Cel
-Jeden punkt wejścia który przepytuje użytkownika, zbiera wymagania (cel, sukces, zakres, ograniczenia), generuje kompletny **PLAN.md** i zapisuje do `jobs/scheduled/`, gotowy do wykonania.
+Jeden punkt wejścia który przepytuje użytkownika, zbiera wymagania (cel, sukces, zakres, ograniczenia), generuje kompletny **PLAN.md** i zapisuje do `.claude/job/PLAN.md`, gotowy do wykonania.
 
 ## Przepływ
 
@@ -97,23 +97,23 @@ Po zatwierdzeniu tego planu:
 1. Uruchom: `/implement_this {{ slug }}`
 2. Orchestrator przeczyta ten PLAN.md
 3. Będzie wykonywać fazy sekwencyjnie
-4. Po ukończeniu przeniesie do `jobs/completed/{{ slug }}/`
+4. Po ukończeniu job będzie w `.claude/job/`
 ```
 
 ### Faza 3: Przegląd & Potwierdzenie
 8. Pokaż wygenerowany PLAN.md użytkownikowi
-9. Zapytaj: "**Czy mogę utworzyć plik PLAN.md w `jobs/scheduled/{{ slug }}/`?**"
+9. Zapytaj: "**Czy mogę utworzyć plik PLAN.md w `.claude/job/`?**"
 10. Jeśli użytkownik chce zmian:
     - Iteruj nad PLAN.md
     - Wróć do kroku 8
 11. Jeśli użytkownik potwierdzi:
-    - Utwórz `jobs/scheduled/{{ slug }}/`
-    - Zapisz `PLAN.md`
-    - Potwierdź użytkownikowi: "✓ Utworzono jobs/scheduled/{{ slug }}/PLAN.md. Gotowe do `/implement_this {{ slug }}`"
+    - Utwórz `.claude/job/` katalog
+    - Zapisz `PLAN.md` do `.claude/job/PLAN.md`
+    - Potwierdź użytkownikowi: "✓ Utworzono `.claude/job/PLAN.md`. Gotowe do `/implement_this`"
 
 ## Struktura Katalogów
 ```
-jobs/scheduled/{{ slug }}/
+.claude/job/
 └── PLAN.md         # Kompletny plan z celem, zakresem, fazami, zadaniami
 ```
 
@@ -142,14 +142,14 @@ Agent: Jak wyglądałaby sytuacja gdy projekt jest gotowy?
 Human: Użytkownicy mogą się logować, tokeny są walidowane, sesje się pamiętają
 ...
 Agent: [Pokazuje wygenerowany PLAN.md]
-Agent: Czy mogę utworzyć plik PLAN.md w jobs/scheduled/user-login/?
+Agent: Czy mogę utworzyć plik PLAN.md w `.claude/job/`?
 Human: tak
-Agent: ✓ Utworzono jobs/scheduled/user-login/PLAN.md
-       Gotowe do `/implement_this user-login`
+Agent: ✓ Utworzono `.claude/job/PLAN.md`
+       Gotowe do `/implement_this`
 ```
 
 ## Punkty Integracji
 - PLAN.md jest jedynym artefaktem dla job-a
 - Orchestrator czyta PLAN.md i wykonuje fazy
 - Sub-agenty delegują się na podstawie PLAN.md
-- Status job-a śledzony w job-reports/ po `/implement_this`
+- Status job-a śledzony w reports/ po `/implement_this`
