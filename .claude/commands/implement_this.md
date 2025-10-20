@@ -1,67 +1,67 @@
 # /implement_this
 
-Execute a scheduled job using the orchestrator agent.
+Wykonaj zaplanowane zadanie używając agenta orchestrator.
 
-## Usage
+## Użycie
 ```
 /implement_this <job-slug>
 ```
 
-## What It Does
+## Co To Robi
 
-1. Validates that `jobs/scheduled/<job-slug>/` exists
-2. Spawns the **orchestrator agent** with the job context
-3. Orchestrator reads PRD.md and plan.md
-4. Executes phases sequentially by delegating to sub-agents
-5. Tracks progress in status.md
-6. On completion, moves job to `jobs/completed/`
+1. Waliduje że `jobs/scheduled/<job-slug>/` istnieje
+2. Uruchamia **agenta orchestrator** z kontekstem zadania
+3. Orchestrator czyta PRD.md i plan.md
+4. Wykonuje fazy sekwencyjnie delegując do sub-agentów
+5. Śledzi postęp w status.md
+6. Po ukończeniu przenosi zadanie do `jobs/completed/`
 
-## Prerequisites
+## Warunki Wstępne
 
-- Job must exist in `jobs/scheduled/<job-slug>/`
-- Must contain `PRD.md` and `plan.md`
-- Use `/plan` to create a job first
+- Zadanie musi istnieć w `jobs/scheduled/<job-slug>/`
+- Musi zawierać `PRD.md` i `plan.md`
+- Użyj `/plan` żeby najpierw stworzyć zadanie
 
-## Example
+## Przykład
 
 ```bash
-# After creating a job with /plan
+# Po utworzeniu zadania z /plan
 /implement_this user-auth
 
-# Orchestrator will:
-# - Read jobs/scheduled/user-auth/PRD.md
-# - Read jobs/scheduled/user-auth/plan.md
-# - Execute each phase
-# - Delegate tasks to coding-agent, validator, etc.
-# - Update status.md continuously
-# - Move to jobs/completed/user-auth when done
+# Orchestrator będzie:
+# - Czytać jobs/scheduled/user-auth/PRD.md
+# - Czytać jobs/scheduled/user-auth/plan.md
+# - Wykonywać każdą fazę
+# - Delegować zadania do coding-agent, validator, etc.
+# - Aktualizować status.md na bieżąco
+# - Przenosić do jobs/completed/user-auth po ukończeniu
 ```
 
-## Monitoring Progress
+## Monitorowanie Postępu
 
-While executing, check:
-- `jobs/scheduled/<job-slug>/status.md` - Current status and progress
-- `jobs/scheduled/<job-slug>/worklog.md` - Detailed execution log
-- Orchestrator will provide concise updates in chat
+Podczas wykonania sprawdzaj:
+- `jobs/scheduled/<job-slug>/status.md` - Bieżący status i postęp
+- `jobs/scheduled/<job-slug>/worklog.md` - Szczegółowy dziennik wykonania
+- Orchestrator będzie dostarczać zwięzłe aktualizacje w chacie
 
-## Manual Intervention
+## Ręczna Interwencja
 
-If orchestrator gets blocked:
-- Check status.md for blocker description
-- Fix the issue manually if needed
-- Re-run `/implement_this <job-slug>` to resume from current phase
+Jeśli orchestrator utknął:
+- Sprawdź status.md w poszukiwaniu opisu blokera
+- Napraw problem ręcznie jeśli trzeba
+- Ponownie uruchom `/implement_this <job-slug>` żeby wznowić z bieżącej fazy
 
-## Advanced Options
+## Opcje Zaawansowane
 
 ```
-/implement_this <job-slug> --phase <N>      # Start from specific phase
-/implement_this <job-slug> --resume         # Resume from last checkpoint
-/implement_this <job-slug> --validate-only  # Run validation without execution
+/implement_this <job-slug> --phase <N>      # Zacznij od konkretnej fazy
+/implement_this <job-slug> --resume         # Wznów z ostatniego checkpointa
+/implement_this <job-slug> --validate-only  # Tylko walidacja bez wykonania
 ```
 
-## Related Commands
+## Powiązane Komendy
 
-- `/plan` - Create new job
-- `/status <job-slug>` - Check job status
-- `/archive <job-slug>` - Move to completed without executing
-- `/cancel <job-slug>` - Cancel and clean up job
+- `/plan` - Utwórz nowe zadanie
+- `/status <job-slug>` - Sprawdź status zadania
+- `/archive <job-slug>` - Przenieś do ukończonych bez wykonania
+- `/cancel <job-slug>` - Anuluj i wyczyść zadanie
