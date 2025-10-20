@@ -1,26 +1,31 @@
-# code-smoke-tester-agent Memory
+# Shared Memory Index
 
-Tester - runs quick validation tests
+Cross-agent reusable knowledge.
 
-## Quick Reference
+## Skills
 
-**Skills:** [skills.md](./skills.md)
-**Issues:** [issues.md](./issues.md)
-**Notes:** [notes.md](./notes.md)
-**Patterns:** [patterns.md](./patterns.md)
+Techniques discovered and proven to work:
+- See: [skills.md](./skills.md)
 
-## How to Use
+## Patterns
 
-### Learning from memory
-1. Check skills.md for proven techniques
-2. Check issues.md for known problems
-3. Check patterns.md for effective approaches
+Design patterns and solutions:
+- See: [patterns.md](./patterns.md)
 
-### Adding to memory
-After work, update:
-- skills.md - New technique discovered?
-- issues.md - Problems encountered and solved?
-- notes.md - Insights and observations?
-- patterns.md - Effective patterns found?
+## Learnings
 
-**Golden rule:** Only add if truly reusable!
+General insights and principles:
+- See: [learnings.md](./learnings.md)
+
+## Adding to Shared
+
+Move from agent-specific memory when:
+1. Pattern works for multiple agents
+2. Technique is universally applicable
+3. Proven through multiple uses
+
+Process:
+1. Extract from `agents/[agent]/...`
+2. Generalize for all agents
+3. Add to `shared/skills.md` or `shared/patterns.md`
+4. Link back in agent memory for reference
