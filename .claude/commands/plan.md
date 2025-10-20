@@ -1,29 +1,29 @@
 # /plan
 
-Unified command for planning new implementation project. Creates PRD + plan through interactive session.
+Jednolita komenda planowania nowego projektu implementacji. Tworzy PRD + plan poprzez interaktywną sesję.
 
-## Goal
-Single entry point that interviews the human, creates PRD.md and task plan, saves to `jobs/scheduled/`, ready for execution.
+## Cel
+Jeden punkt wejścia który przepytuje użytkownika, tworzy PRD.md i plan zadań, zapisuje do `jobs/scheduled/`, gotowe do wykonania.
 
-## Flow
+## Przepływ
 
-### Phase 1: Discovery Interview
-1. Ask for project/task name and slug (e.g., "user-auth" from "User Authentication")
-2. What's the main goal? What problem are we solving?
-3. What does success look like? (measurable outcomes)
-4. What's in scope vs out of scope?
-5. Any constraints, dependencies, or risks?
-6. Expected timeline/priority?
+### Faza 1: Wywiad Discovery
+1. Zapytaj o nazwę projektu/zadania i slug (np. "user-auth" z "User Authentication")
+2. Jaki jest główny cel? Jaki problem rozwiązujemy?
+3. Jak wygląda sukces? (mierzalne rezultaty)
+4. Co jest w zakresie vs poza zakresem?
+5. Jakieś ograniczenia, zależności lub ryzyka?
+6. Spodziewana oś czasu/priorytet?
 
-### Phase 2: Generate Artifacts
-7. Create PRD structure:
+### Faza 2: Generowanie Artefaktów
+7. Utwórz strukturę PRD:
    ```markdown
    # PRD — {{ project_name }}
 
    ## Cel & kontekst
    {{ goal_description }}
 
-   ## Success criteria
+   ## Kryteria sukcesu
    - [ ] {{ criterion_1 }}
    - [ ] {{ criterion_2 }}
 
@@ -34,73 +34,73 @@ Single entry point that interviews the human, creates PRD.md and task plan, save
    **Poza zakresem:**
    - {{ out_of_scope_items }}
 
-   ## Constraints & Dependencies
+   ## Ograniczenia & Zależności
    - {{ constraints }}
 
-   ## Risks & Mitigations
+   ## Ryzyka & Mitygacja
    - {{ risks_with_mitigations }}
    ```
 
-8. Break into phases and tasks:
+8. Podziel na fazy i zadania:
    ```markdown
    # Plan — {{ project_name }}
 
-   **Status:** scheduled
-   **Created:** {{ timestamp }}
-   **Priority:** {{ priority }}
+   **Status:** zaplanowane
+   **Utworzono:** {{ timestamp }}
+   **Priorytet:** {{ priority }}
 
-   ## Phases
+   ## Fazy
 
-   ### Phase 1: {{ phase_name }}
+   ### Faza 1: {{ phase_name }}
    - [ ] {{ task_1 }} (agent: {{ agent_name }})
    - [ ] {{ task_2 }} (agent: {{ agent_name }})
-   - [ ] Validate phase 1
+   - [ ] Walidacja fazy 1
 
-   ### Phase 2: {{ phase_name }}
+   ### Faza 2: {{ phase_name }}
    ...
 
-   ## Validation Checkpoints
-   - [ ] Unit tests pass
-   - [ ] Integration works
-   - [ ] Documentation complete
+   ## Punkty Walidacji
+   - [ ] Testy jednostkowe przechodzą
+   - [ ] Integracja działa
+   - [ ] Dokumentacja kompletna
    ```
 
-### Phase 3: Review & Confirm
-9. Show PRD and plan to human
-10. Ask: "Czy mogę utworzyć pliki w `jobs/scheduled/{{ slug }}/`?"
-11. If human says changes needed:
-    - Iterate on PRD/plan
-    - Go back to step 9
-12. If human confirms:
-    - Create `jobs/scheduled/{{ slug }}/`
-    - Save `PRD.md`
-    - Save `plan.md`
-    - Save `status.md` with metadata
-    - Confirm to human: "Utworzono w jobs/scheduled/{{ slug }}. Gotowe do /implement_this"
+### Faza 3: Przegląd & Potwierdzenie
+9. Pokaż PRD i plan użytkownikowi
+10. Zapytaj: "Czy mogę utworzyć pliki w `jobs/scheduled/{{ slug }}/`?"
+11. Jeśli użytkownik chce zmian:
+    - Iteruj PRD/plan
+    - Wróć do kroku 9
+12. Jeśli użytkownik potwierdzi:
+    - Utwórz `jobs/scheduled/{{ slug }}/`
+    - Zapisz `PRD.md`
+    - Zapisz `plan.md`
+    - Zapisz `status.md` z metadanymi
+    - Potwierdź użytkownikowi: "Utworzono w jobs/scheduled/{{ slug }}. Gotowe do /implement_this"
 
-## Directory Structure Created
+## Struktura Katalogów
 ```
 jobs/scheduled/{{ slug }}/
-├── PRD.md          # Product requirements
-├── plan.md         # Phased task breakdown
-├── status.md       # Current status, metadata
-└── README.md       # Quick overview
+├── PRD.md          # Wymagania produktu
+├── plan.md         # Podział zadań na fazy
+├── status.md       # Bieżący status, metadane
+└── README.md       # Szybki przegląd
 ```
 
-## Rules
-- Keep interview conversational but focused (max 5-7 questions)
-- Don't create files until human confirms
-- Use slug format: lowercase-with-hyphens
-- Always create status.md with: created timestamp, priority, current phase
-- Reference which agents will be used for each task type
+## Reguły
+- Wywiad rozmowny ale skoncentrowany (max 5-7 pytań)
+- Nie twórz plików zanim użytkownik potwierdzi
+- Slug format: lowercase-with-hyphens
+- Zawsze twórz status.md z: timestamp utworzenia, priorytet, bieżąca faza
+- Wskaż które agenty będą użyte dla każdego typu zadania
 
-## Next Steps
-After `/plan` completes, human can:
-- `/implement_this {{ slug }}` - run the orchestrator
-- `/edit {{ slug }}` - modify PRD/plan before execution
-- `/archive {{ slug }}` - move to jobs/completed
+## Następne Kroki
+Po ukończeniu `/plan`, użytkownik może:
+- `/implement_this {{ slug }}` - uruchom orchestrator
+- `/edit {{ slug }}` - modyfikuj PRD/plan przed wykonaniem
+- `/archive {{ slug }}` - przenieś do jobs/completed
 
-## Example Usage
+## Przykład Użycia
 ```
 Human: /plan
 Agent: Co chcesz zaimplementować? (nazwa projektu)
@@ -108,7 +108,7 @@ Human: System logowania użytkowników
 Agent: Jaki jest główny cel tego systemu?
 Human: Bezpieczne uwierzytelnianie z JWT tokens
 ...
-Agent: [Shows PRD and plan]
+Agent: [Pokazuje PRD i plan]
 Agent: Czy mogę utworzyć pliki w jobs/scheduled/user-login/?
 Human: tak
 Agent: ✓ Utworzono jobs/scheduled/user-login/
@@ -118,8 +118,8 @@ Agent: ✓ Utworzono jobs/scheduled/user-login/
        Gotowe do /implement_this user-login
 ```
 
-## Integration Points
-- Uses templates from `.claude/agents/templates/`
-- Can delegate to sub-agents during execution phase
-- Integrates with `/implement_this` execution workflow
-- CODEX validation can be added to plan phases
+## Punkty Integracji
+- Używa szablonów z `.claude/agents/templates/`
+- Może delegować do sub-agentów podczas fazy wykonania
+- Integruje się z workflow `/implement_this`
+- Walidacja CODEX może być dodana do faz planu
