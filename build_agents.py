@@ -24,6 +24,7 @@ Usage:
 import sys
 import re
 from pathlib import Path
+from jinja2 import Environment, FileSystemLoader
 
 
 AGENTS_DIR = Path(".claude/agents")
@@ -101,47 +102,14 @@ def parse_yaml_simple(content: str) -> dict:
     return result
 
 
-def render_template(template_content: str, context: dict) -> str:
-    """Simple template renderer using {{ }} substitution and {% include %} directives."""
-    output = template_content
-
-    # Process {% include "path" %} directives
-    include_pattern = r'{%\s*include\s+"([^"]+)"\s*%}'
-    for match in re.finditer(include_pattern, output):
-        include_path = match.group(1)
-        full_path = AGENTS_DIR / include_path
-
-        if full_path.exists():
-            with open(full_path, "r") as f:
-                included_content = f.read()
-            # Recursively render included content
-            included_content = render_template(included_content, context)
-            output = output.replace(match.group(0), included_content)
-        else:
-            print(f"⚠ Warning: include file not found: {include_path}")
-
-    # Replace {{ key }} with values from context
-    for key, value in context.items():
-        placeholder = f"{{{{ {key} }}}}"
-        if isinstance(value, (list, dict)):
-            replacement = str(value)
-        else:
-            replacement = str(value)
-        output = output.replace(placeholder, replacement)
-
-    # Replace {{ meta.key }} patterns
-    for key, value in context.get("meta", {}).items():
-        placeholder = f"{{{{ meta.{key} }}}}"
-        if isinstance(value, (list, dict)):
-            replacement = str(value)
-        else:
-            replacement = str(value)
-        output = output.replace(placeholder, replacement)
-
-    return output
+def render_template(template_content: str, context: dict, env: Environment) -> str:
+    """Render template using Jinja2 with proper whitespace control."""
+    # Create a temporary template from string
+    template = env.from_string(template_content)
+    return template.render(**context)
 
 
-def build_agent(j2_file: Path) -> None:
+def build_agent(j2_file: Path, env: Environment) -> None:
     """Build a single agent from .j2 definition file."""
 
     # Read .j2 file
@@ -189,7 +157,7 @@ model: {model}
 
     # Render template
     context = {"meta": meta}
-    rendered = render_template(template_content, context)
+    rendered = render_template(template_content, context, env)
 
     # Write output with frontmatter
     output_name = meta.get("output_name", name)
@@ -209,6 +177,13 @@ def main() -> None:
         print(f"Error: {AGENTS_DIR} not found")
         sys.exit(1)
 
+    # Create Jinja2 environment with proper whitespace control
+    # Using default whitespace behavior to preserve structure
+    env = Environment(
+        loader=FileSystemLoader(str(AGENTS_DIR)),
+        keep_trailing_newline=False,  # Don't preserve trailing newline from templates
+    )
+
     # Determine which agents to build
     if len(sys.argv) > 1:
         # Build specific agent
@@ -219,7 +194,7 @@ def main() -> None:
             print(f"Error: {j2_file} not found")
             sys.exit(1)
 
-        build_agent(j2_file)
+        build_agent(j2_file, env)
     else:
         # Build all agents
         j2_files = sorted(AGENTS_DIR.glob("*.j2"))
@@ -231,7 +206,7 @@ def main() -> None:
         print(f"Building {len(j2_files)} agent(s)...\n")
 
         for j2_file in j2_files:
-            build_agent(j2_file)
+            build_agent(j2_file, env)
 
         print(f"\n✓ Complete: {len(j2_files)} agent(s) built")
 
