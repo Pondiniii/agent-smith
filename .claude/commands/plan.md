@@ -17,6 +17,12 @@ Każdy agent ma specjalną rolę. Wybieraj je do zadań na podstawie ich specjal
 - **coding-agent**: Implementacja. Atomowe zadania, czysty kod, testy na bieżąco.
   - Użyj: Pisanie kodu, feature implementation, bug fixes
 
+- **haiku-coding-agent**: Fast coder variant (Haiku model). Szybka implementacja dla prostych zadań.
+  - Użyj: Prosta implementacja, małe zmiany, szybki turnaround
+
+- **solution-architect-agent**: Senior architect. Transforms requirements into detailed technical architecture.
+  - Użyj: Planowanie architektury, design decisions, system design
+
 - **docs-agent**: LLM documentation specialist. Generuje KISS docs dla context efficient restoration.
   - Użyj: Dokumentacja, knowledge base, context restoration files
 
@@ -27,6 +33,14 @@ Każdy agent ma specjalną rolę. Wybieraj je do zadań na podstawie ich specjal
 
 - **project-auditor-agent**: Research validator. Weryfikuje czy job naprawdę done czy agenci flying in circles.
   - Użyj: Audit czy phase/projekt skończony, weryfikacja requirements
+
+## Agenty External (OpenAI Codex CLI)
+
+- **codex-auditor-agent**: Senior validator. Last line of defense - ensures job is truly done.
+  - Użyj: Final quality check przed deploymentem, last gate. Wołany przez CLI.
+
+- **codex-debug-agent**: External debugger. Spawns Codex CLI to debug and fix issues in code.
+  - Użyj: Naprawianie bugów, fixing issues, debugowanie problemów. Wołany przez CLI.
 
 ## Agent Orkiestracyjny
 

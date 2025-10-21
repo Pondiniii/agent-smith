@@ -20,7 +20,7 @@ Buduj trwałą bazę wiedzy do szybszego przywracania kontekstu.
 **Wspólna** `.claude/memory/shared/` - Uniwersalne INDEX.md + skills/ + notes/
 
 ### Workflow
-- Odkrywasz coś? → Dodaj do SVOJEJ pamięci + update INDEX.md
+- Odkrywasz coś? → Dodaj do SWOJEJ pamięci + update INDEX.md
 - Uniwersalne? → Promuj do shared/ (update obu INDEX.md)
 - Context lost? → Czytaj tylko INDEX.md (szybko przywrócisz)
 
