@@ -1,10 +1,10 @@
 # /plan
 
-Pomóż userowi zaplanować prace dla sub-agentów i rozdzielić duży pomysł projekt na wiele małych króków. Zbiera wymagania i tworzy ujednolicony **.claude/job/PLAN.md** zawierający całą zawartość. Znajduje ryzyka i zagrorzenia.
+Pomóż userowi zaplanować prace dla sub-agentów i rozdzielić duży pomysł projekt na wiele małych króków. Zbiera wymagania i tworzy ujednolicony **PLAN.md** zawierający całą zawartość. Znajduje ryzyka i zagrorzenia.
 
 ## Cel
 - Przeprowadzić PRD z userem a następnie
-Wygenerować plik .claude/job/PLAN.md który zawiera:
+Wygenerować plik PLAN.md który zawiera:
 - zadania podzielone na PHASE i dużo kroczków i opis jaki krok jaki sub-agent będzie robił
 - aplikacja i plan działania musi być zoptymalizowany pod subagentów
 
@@ -48,10 +48,10 @@ Każdy agent ma specjalną rolę. Wybieraj je do zadań na podstawie ich specjal
 8. dopytuj lub proponuj tech stack.
 
 
-### Faza 2: Generowanie .claude/job/PLAN.md
-Gdy już poznasz wymagania i przeprowadzisz wywiad z userem i będziesz dosyć pewien. Zapytaj usera czy mogę napisać .claude/job/PLAN.md?
+### Faza 2: Generowanie PLAN.md
+Gdy już poznasz wymagania i przeprowadzisz wywiad z userem i będziesz dosyć pewien. Zapytaj usera czy mogę napisać PLAN.md?
 
-Na podstawie odpowiedzi, utwórz **.claude/job/PLAN.md** z pełną strukturą:
+Na podstawie odpowiedzi, utwórz **PLAN.md** z pełną strukturą:
 
 ```markdown
 # PLAN — {{ project_name }}
@@ -87,19 +87,19 @@ Na podstawie odpowiedzi, utwórz **.claude/job/PLAN.md** z pełną strukturą:
 ### Faza 1: {{ phase_1_name }}
 - [ ] {{ task_1_1 }} (agent: {{ agent_type }})
 - [ ] {{ task_1_2 }} (agent: {{ agent_type }})
-- [ ] Walidacja fazy 1 {{ agent_type }} 
+- [ ] Smoke test fazy 1 (code-smoke-tester-agent) - weryfikacja że kompiluje, odpala się, podstawowe testy
 
 ### Faza 2: {{ phase_2_name }}
 - [ ] {{ task_2_1 }} (agent: {{ agent_type }})
 - [ ] {{ task_2_2 }} (agent: {{ agent_type }})
-- [ ] Walidacja fazy 2 {{ agent_type }}
+- [ ] Smoke test fazy 2 (code-smoke-tester-agent) - full validation
 
 ### Faza 3: {{ phase_3_name }}
-- [ ] {{ task_3_1 }} {{ agent_type }})
-- Walidacja fazy 3 {{ agent_type }}
+- [ ] {{ task_3_1 }} (agent: {{ agent_type }})
+- [ ] Smoke test fazy 3 (code-smoke-tester-agent)
 
-Finalna Walidacja walidacja całego projektu {{ agent_type }}
-...
+### Finalna Walidacja
+- [ ] Audit całego projektu (project-auditor-agent) - weryfikacja wszystkich success criteria
 
 ---
 
@@ -118,17 +118,60 @@ Wszystkie success criteria spełnione.
 
 ## Reguły
 - Nie twórz pliku zanim użytkownik potwierdzi
-- .claude/job/PLAN.md zawiera wszystko: cel, sukces, zakres, ograniczenia, fazy, zadania i więcej jeśl uważasz za słuszne.
+- PLAN.md zawiera wszystko: cel, sukces, zakres, ograniczenia, fazy, zadania i więcej jeśl uważasz za słuszne.
 - Każde zadanie powinno mieć przypisanego agenta (coding-agent, docs-agent, itp.)
 - Fazy powinny być sekwencyjne i testowalne
+- **Każda faza musi kończyć się smoke testem** (code-smoke-tester-agent)
 - Pamiętasz rozbijasz wielki projekt na wiele małych kroczków aby agenci sobie mogli na spokojnie poradzić przez ogromny projekt.
+- **Nigdy nie planuj końca** - plan powinien mieć fallback scenariusze jeśli smoke test zawali
+
+## Grupowanie Tasków — WAŻNE!
+
+**Minimalizuj liczbę wywołań agentów** poprzez inteligentne grupowanie logicznie powiązanych zadań:
+
+### Zasada Podstawowa
+Gdy wiele tasków ma **tego samego agenta** I są **logicznie powiązane** → **grupuj je pod jedno zadanie**
+
+### Format w PLAN.md
+```markdown
+- [ ] **1.2-1.3** Stworzenie components directory + wszystkie komponenty (docs-agent + coding-agent)
+  - Struktura katalogów
+  - card.html, card_stat.html, btn.html, badge.html, table.html, form_group.html, modal.html, alert.html
+
+- [ ] **1.4-1.8** Refactor wszystkich pages (Dashboard, Listings, Targets, Rules, Analytics) (coding-agent)
+  - Każda page używa nowych componentów
+  - Spójny styling
+```
+
+### Kryteria Grupowania
+✅ Taski są tego samego agenta
+✅ Taski są logicznie powiązane (np. "wszystkie komponenty", "wszystkie pages")
+✅ Mogą być wykonane równolegle lub sekwencyjnie w jednym callom agenta
+✅ Razem tworzą spójną całość funkcjonalną
+
+### Przykłady
+**Grupuj:**
+- 8 componentów UI → 1 task (coding-agent)
+- 5 page refactorów → 1 task (coding-agent)
+- Smoke testy na 4 featurach → 1 task (code-smoke-tester-agent)
+
+**Nie grupuj:**
+- coding-agent + docs-agent razem (różne agenty, różne umiejętności)
+- Template refactor + Backend fixes (różne komponenty systemu)
+- Testing + Implementation (różne fazy)
+
+### Benefit
+- ⬇️ Mniej context switching między agentami
+- ⬇️ Lepsze zrozumienie powiązań między taskmi
+- ⏱️ Szybsza implementacja
+- 📦 Czystszy PLAN.md
 
 ## Następne Kroki
 Po ukończeniu `/plan`, użytkownik może:
 - `/implement_this {{ slug }}` - uruchom orchestrator z tym planem
-- Edytować .claude/job/PLAN.md ręcznie przed `/implement_this`
+- Edytować PLAN.md ręcznie przed `/implement_this`
 
 ## Punkty Integracji
-- .claude/job/PLAN.md jest jedynym artefaktem dla job-a
-- Orchestrator czyta .claude/job/PLAN.md i wykonuje fazy
-- Sub-agenty delegują się na podstawie .claude/job/PLAN.md
+- PLAN.md jest jedynym artefaktem dla job-a
+- Orchestrator czyta PLAN.md i wykonuje fazy
+- Sub-agenty delegują się na podstawie PLAN.md
