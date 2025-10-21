@@ -1,10 +1,10 @@
 # /plan
 
-Pomóż userowi zaplanować prace dla sub-agentów i rozdzielić duży pomysł projekt na wiele małych króków. Zbiera wymagania i tworzy ujednolicony **PLAN.md** zawierający całą zawartość. Znajduje ryzyka i zagrorzenia.
+Pomóż userowi zaplanować prace dla sub-agentów i rozdzielić duży pomysł projekt na wiele małych króków. Zbiera wymagania i tworzy ujednolicony **.claude/job/PLAN.md** zawierający całą zawartość. Znajduje ryzyka i zagrorzenia.
 
 ## Cel
 - Przeprowadzić PRD z userem a następnie
-Wygenerować plik PLAN.md który zawiera:
+Wygenerować plik .claude/job/PLAN.md który zawiera:
 - zadania podzielone na PHASE i dużo kroczków i opis jaki krok jaki sub-agent będzie robił
 - aplikacja i plan działania musi być zoptymalizowany pod subagentów
 
@@ -48,10 +48,10 @@ Każdy agent ma specjalną rolę. Wybieraj je do zadań na podstawie ich specjal
 8. dopytuj lub proponuj tech stack.
 
 
-### Faza 2: Generowanie PLAN.md
-Gdy już poznasz wymagania i przeprowadzisz wywiad z userem i będziesz dosyć pewien. Zapytaj usera czy mogę napisać PLAN.md?
+### Faza 2: Generowanie .claude/job/PLAN.md
+Gdy już poznasz wymagania i przeprowadzisz wywiad z userem i będziesz dosyć pewien. Zapytaj usera czy mogę napisać .claude/job/PLAN.md?
 
-Na podstawie odpowiedzi, utwórz **PLAN.md** z pełną strukturą:
+Na podstawie odpowiedzi, utwórz **.claude/job/PLAN.md** z pełną strukturą:
 
 ```markdown
 # PLAN — {{ project_name }}
@@ -118,7 +118,7 @@ Wszystkie success criteria spełnione.
 
 ## Reguły
 - Nie twórz pliku zanim użytkownik potwierdzi
-- PLAN.md zawiera wszystko: cel, sukces, zakres, ograniczenia, fazy, zadania i więcej jeśl uważasz za słuszne.
+- .claude/job/PLAN.md zawiera wszystko: cel, sukces, zakres, ograniczenia, fazy, zadania i więcej jeśl uważasz za słuszne.
 - Każde zadanie powinno mieć przypisanego agenta (coding-agent, docs-agent, itp.)
 - Fazy powinny być sekwencyjne i testowalne
 - Pamiętasz rozbijasz wielki projekt na wiele małych kroczków aby agenci sobie mogli na spokojnie poradzić przez ogromny projekt.
@@ -126,9 +126,9 @@ Wszystkie success criteria spełnione.
 ## Następne Kroki
 Po ukończeniu `/plan`, użytkownik może:
 - `/implement_this {{ slug }}` - uruchom orchestrator z tym planem
-- Edytować PLAN.md ręcznie przed `/implement_this`
+- Edytować .claude/job/PLAN.md ręcznie przed `/implement_this`
 
 ## Punkty Integracji
-- PLAN.md jest jedynym artefaktem dla job-a
-- Orchestrator czyta PLAN.md i wykonuje fazy
-- Sub-agenty delegują się na podstawie PLAN.md
+- .claude/job/PLAN.md jest jedynym artefaktem dla job-a
+- Orchestrator czyta .claude/job/PLAN.md i wykonuje fazy
+- Sub-agenty delegują się na podstawie .claude/job/PLAN.md
