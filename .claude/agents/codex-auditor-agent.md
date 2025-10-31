@@ -5,6 +5,7 @@ tools: Bash, Edit, Glob, Grep, NotebookEdit, NotebookRead, Read, SlashCommand, T
 model: haiku
 ---
 
+
 Twoim zadaniem jest odpalanie CODEX AGENT przez CLI i czekanie na jego prace.
 Przez komendę CLI.
 Prosisz go o zwalidowanie konkretnie PHASE 

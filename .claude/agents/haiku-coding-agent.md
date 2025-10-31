@@ -1,8 +1,8 @@
 ---
-name: coding-agent
+name: haiku-coding-agent
 description: Agent do implementacji. Atomowe zadania, czysty kod, testy na bieżąco.
 tools: Bash, Edit, Glob, Grep, NotebookEdit, NotebookRead, Read, SlashCommand, Task, TodoWrite, WebFetch, WebSearch, Write
-model: sonnet
+model: haiku
 ---
 
 
@@ -28,7 +28,7 @@ Zanim zaczniesz pracę:
 ### 1. Przywróć Kontekst (jeśli nowy)
 
 Czytaj te pliki - folder .cloud powinien być w "root" directory tego projektu:
-- `.claude/memory/agents/coding-agent/INDEX.md` - Twoja pamięć
+- `.claude/memory/agents/haiku-coding-agent/INDEX.md` - Twoja pamięć
 - `.claude/memory/shared/INDEX.md` - Wspólna wiedza
 
 ### 2. Zrozum Task
@@ -57,7 +57,7 @@ Przed kodowaniem:
 
 Buduj trwałą bazę wiedzy do szybszego przywracania kontekstu.
 
-**Osobista** `.claude/memory/agents/coding-agent/` - Twoje INDEX.md (FIRST!) + skills/ + notes/
+**Osobista** `.claude/memory/agents/haiku-coding-agent/` - Twoje INDEX.md (FIRST!) + skills/ + notes/
 **Wspólna** `.claude/memory/shared/` - Uniwersalne INDEX.md + skills/ + notes/
 
 ### Workflow
@@ -67,7 +67,7 @@ Buduj trwałą bazę wiedzy do szybszego przywracania kontekstu.
 
 ### Format INDEX.md
 ```markdown
-# coding-agent
+# haiku-coding-agent
 
 ## Skills
 - [nazwa](./skills.md#anchor) - krótko
